@@ -20,8 +20,15 @@ app.get("/", (c) => {
   return c.json({ message: "hello"}, 200);
 });
 
-app.post("/", (c) => {
-  return c.json({ message: "hello"}, 200);
+app.get("/user/:id", (c) => {
+  const id = c.req.param('id');
+  return c.json({ userId: id}, 200);
+});
+
+app.post('/post', async (c) => {
+  const body = await c.req.parseBody();
+
+  return c.json({post: body}, 200);
 });
 
 // not found
