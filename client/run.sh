@@ -6,7 +6,7 @@ bun fetch.ts
 
 echo "deno: "
 
-bun fetch.ts
+deno -A fetch.ts
 
 echo "node: "
 

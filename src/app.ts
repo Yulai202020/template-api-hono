@@ -1,8 +1,13 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
-
+import page from "@/page"
 const app = new Hono();
+
+const users = [
+  "Yulai",
+  "Azamat"
+]
 
 const corsOptions = {
   origin: "*",
@@ -21,8 +26,14 @@ app.get("/", (c) => {
 });
 
 app.get("/user/:id", (c) => {
-  const id = c.req.param('id');
-  return c.json({ userId: id}, 200);
+  const id = parseInt(c.req.param('id'));
+  const username = users[id];
+
+  if (username !== undefined) {
+    return c.json({ username: username }, 200);
+  } else {
+    return c.json({ message: "username doesnt exist!" }, 404);
+  }
 });
 
 app.post('/post', async (c) => {
@@ -31,10 +42,14 @@ app.post('/post', async (c) => {
   return c.json({post: body}, 200);
 });
 
+app.get("/html", (c) => {
+  return c.html(page);
+})
+
 // not found
 
 app.notFound((c) => {
-  return c.json({ error: "Yuk" }, 404);
+  return c.json({ error: "resoure not found!" }, 404);
 });
 
 // error
